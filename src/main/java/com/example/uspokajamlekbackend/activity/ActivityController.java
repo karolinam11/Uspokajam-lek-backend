@@ -10,16 +10,17 @@ import java.util.List;
 @RestController
 @Log4j2
 @CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/activities")
 public class ActivityController {
 
     @Autowired
     private ActivityService activityService;
 
-    @GetMapping("/activities")
+    @GetMapping()
     public ResponseEntity<List<ActivityResponse>> getUserActivities(@RequestParam Long id){
         return ResponseEntity.ok(activityService.getUserActivities(id));
     }
-    @PostMapping("/activities/add")
+    @PostMapping("/add")
     public ResponseEntity<?> addActivity(@RequestBody ActivityRequest activityRequest){
         this.activityService.addActivity(activityRequest);
         return ResponseEntity.ok().build();
