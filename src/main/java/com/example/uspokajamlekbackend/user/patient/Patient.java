@@ -45,20 +45,4 @@ public class Patient implements User {
     @JsonIgnore
     private List<Doctor> doctors = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "pending_request",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "doctor_id")
-    )
-    @ToString.Exclude
-    @JsonIgnore
-    private List<Doctor> requests = new ArrayList<>();
-
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @ToString.Exclude
-    @JsonIgnore
-    private List<Appointment> appointments;
-
-
 }

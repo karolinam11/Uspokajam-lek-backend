@@ -17,16 +17,5 @@ public class PatientResponse {
     private String surname;
     private LocalDate birthDate;
     private Role role;
-//    private List<DoctorResponse> doctors;
 
-//    public static PatientResponse createPatientResponse(Patient patient) {
-//        return PatientResponse.builder()
-//                .id(patient.getId())
-//                .name(patient.getName())
-//                .email(patient.getEmail())
-//                .birthDate(patient.getBirthDate())
-//                .surname(patient.getSurname())
-//                .role(patient.getRole())
-//                .build();
-//    }
 }

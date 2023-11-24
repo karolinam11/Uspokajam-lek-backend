@@ -2,9 +2,11 @@ package com.example.uspokajamlekbackend.appointment;
 
 import com.example.uspokajamlekbackend.user.doctor.DoctorService;
 import com.example.uspokajamlekbackend.user.doctor.dto.DoctorResponse;
+import com.example.uspokajamlekbackend.user.patient.Patient;
 import com.example.uspokajamlekbackend.user.patient.PatientService;
 import com.example.uspokajamlekbackend.user.patient.dto.PatientResponse;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +26,14 @@ public class AppointmentService {
     @Autowired
     private DoctorService doctorService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     public AppointmentResponse addAppointment(Long patientId, Long doctorId, LocalDateTime visitStartDate, LocalDateTime visitEndDate) {
         return createAppointmentResponse(this.appointmentRepository.save(Appointment.builder()
                 .visitStartDate(visitStartDate)
                 .visitEndDate(visitEndDate)
-//                .patient(patientService.getById(patientId))
+                .patient(patientService.getById(patientId))
                 .doctor(doctorService.getById(doctorId))
                 .build()));
     }
@@ -66,9 +71,9 @@ public class AppointmentService {
                 .doctor(
                         DoctorResponse.createDoctorResponse(appointment.getDoctor())
                 )
-//                .patient(
-//                        PatientResponse.createPatientResponse(appointment.getPatient())
-//                )
+                .patient(
+                        modelMapper.map(appointment.getPatient(), PatientResponse.class)
+                )
                 .build();
     }
 
@@ -76,7 +81,7 @@ public class AppointmentService {
         Appointment appointment = appointmentRepository.getById(appointmentId);
         if (appointment != null){
             appointment.getDoctor().getAppointments().remove(appointment);
-            appointment.getPatient().getAppointments().remove(appointment);
+//            appointment.getPatient().getAppointments().remove(appointment);
             appointmentRepository.deleteById(appointment.getId());
             return true;
         }

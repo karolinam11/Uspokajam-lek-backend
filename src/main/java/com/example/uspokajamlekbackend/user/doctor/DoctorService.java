@@ -1,5 +1,6 @@
 package com.example.uspokajamlekbackend.user.doctor;
 
+import com.example.uspokajamlekbackend.user.doctor.dto.AddPatientRequest;
 import com.example.uspokajamlekbackend.user.doctor.dto.DoctorResponse;
 import com.example.uspokajamlekbackend.user.patient.dto.PatientResponse;
 import com.example.uspokajamlekbackend.user.patient.Role;
@@ -29,7 +30,7 @@ public class DoctorService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public Doctor getById(Long doctorId){
+    public Doctor getById(Long doctorId) {
         return doctorRepository.getById(doctorId);
     }
 
@@ -49,19 +50,16 @@ public class DoctorService {
         return doctorRepository.save(doctor);
     }
 
-    public boolean assignPatientToDoctor(Long doctorId, Long patientId) {
-        Doctor doctor = doctorRepository.findById(doctorId)
-                .orElseThrow(() -> new EntityNotFoundException("Doctor not found with ID: " + doctorId));
-        Patient patient = patientRepository.findById(patientId)
-                .orElseThrow(() -> new EntityNotFoundException("Patient not found with ID: " + patientId));
+    public boolean assignPatientToDoctor(AddPatientRequest addPatientRequest) {
+        Doctor doctor = doctorRepository.findById(addPatientRequest.getDoctorId())
+                .orElseThrow(() -> new EntityNotFoundException("Doctor not found with ID: " + addPatientRequest.getDoctorId()));
+        Patient patient = patientRepository.findById(addPatientRequest.getPatientId())
+                .orElseThrow(() -> new EntityNotFoundException("Patient not found with ID: " + addPatientRequest.getPatientId()));
         if (!doctor.getPatients().contains(patient)) {
             patient.getDoctors().add(doctor);
             patientRepository.save(patient);
-            doctor.getPatients().add(patient);
-            doctorRepository.save(doctor);
             return true;
         }
-
         return false;
     }
 
@@ -78,7 +76,7 @@ public class DoctorService {
                 .orElseThrow(() -> new EntityNotFoundException("Patient not found with ID: " + patientId));
         if (!doctor.getPatients().contains(patient) && doctor.getPendingRequests().contains(patient)) {
             patient.getDoctors().add(doctor);
-            patient.getRequests().remove(doctor);
+            doctor.getPendingRequests().remove(patient);
             patientRepository.save(patient);
             doctor.getPatients().add(patient);
             doctor.getPendingRequests().remove(patient);
@@ -92,20 +90,18 @@ public class DoctorService {
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new EntityNotFoundException("Patient not found with ID: " + patientId));
         if (!doctor.getPatients().contains(patient) && doctor.getPendingRequests().contains(patient)) {
-            patient.getRequests().remove(doctor);
-            patientRepository.save(patient);
             doctor.getPendingRequests().remove(patient);
             doctorRepository.save(doctor);
         }
     }
 
-    public List<PatientResponse> getPendingRequests(long doctorId){
+    public List<PatientResponse> getPendingRequests(long doctorId) {
         Doctor doctorDb = doctorRepository.findById(doctorId).orElseThrow(EntityNotFoundException::new);
         return doctorDb.getPendingRequests().stream().map(patient -> modelMapper.map(patient, PatientResponse.class)).toList();
 
     }
 
-    public Doctor getDoctorById(Long doctorId){
+    public Doctor getDoctorById(Long doctorId) {
         return doctorRepository.findById(doctorId).orElseThrow(EntityNotFoundException::new);
     }
 

@@ -33,7 +33,6 @@ public class Doctor implements User {
     private String name;
     private String surname;
     private LocalDate birthDate;
-    @NonNull
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -44,12 +43,17 @@ public class Doctor implements User {
 
     private String invitationCode;
 
-    @ManyToMany(mappedBy = "doctors", fetch = FetchType.EAGER, cascade ={CascadeType.MERGE,CascadeType.PERSIST})
+    @ManyToMany(mappedBy = "doctors", fetch = FetchType.EAGER)
     @ToString.Exclude
     @JsonIgnore
     private List<Patient> patients = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "requests", fetch = FetchType.EAGER, cascade ={CascadeType.MERGE,CascadeType.PERSIST})
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "pending_request",
+            joinColumns = @JoinColumn(name = "doctor_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     @ToString.Exclude
     @JsonIgnore
     private List<Patient> pendingRequests = new ArrayList<>();

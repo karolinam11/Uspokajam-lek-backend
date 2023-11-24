@@ -1,21 +1,15 @@
 package com.example.uspokajamlekbackend.user.patient;
 
-import com.example.uspokajamlekbackend.user.User;
 import com.example.uspokajamlekbackend.user.doctor.Doctor;
 import com.example.uspokajamlekbackend.user.doctor.DoctorRepository;
-import com.example.uspokajamlekbackend.user.doctor.dto.DoctorResponse;
-import com.example.uspokajamlekbackend.user.patient.dto.PatientResponse;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PatientService {
@@ -30,13 +24,12 @@ public class PatientService {
     ModelMapper modelMapper;
 
     public Patient signup(Patient patient) {
-        patient.setRole(Role.PATIENT);
-        if (patientRepository.existsByEmail(patient.getEmail())) {
+        if(patientRepository.existsByEmail(patient.getEmail())) {
             throw new EntityExistsException();
-        } else {
-            patient.setDoctors(Collections.emptyList());
-            return patientRepository.save(patient);
         }
+        patient.setRole(Role.PATIENT);
+        patient.setDoctors(Collections.emptyList());
+        return patientRepository.save(patient);
     }
 
     public Patient getById(Long id) {
@@ -64,8 +57,6 @@ public class PatientService {
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new EntityNotFoundException("Patient not found with ID: " + patientId));
         if (!doctor.getPatients().contains(patient)) {
-            patient.getRequests().add(doctor);
-            patientRepository.save(patient);
             doctor.getPendingRequests().add(patient);
             doctorRepository.save(doctor);
             return true;

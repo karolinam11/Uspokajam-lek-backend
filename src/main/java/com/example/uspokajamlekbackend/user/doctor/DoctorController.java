@@ -56,7 +56,7 @@ public class DoctorController {
 
     @PostMapping("add-patient")
     public ResponseEntity<?> addPatient(@RequestBody AddPatientRequest addPatientRequest) {
-        if(this.doctorService.assignPatientToDoctor(addPatientRequest.getDoctorId(), addPatientRequest.getPatientId())){
+        if(this.doctorService.assignPatientToDoctor(addPatientRequest)){
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
