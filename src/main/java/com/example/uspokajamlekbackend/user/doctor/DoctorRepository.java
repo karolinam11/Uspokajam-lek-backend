@@ -1,4 +1,4 @@
-package com.example.uspokajamlekbackend.doctor;
+package com.example.uspokajamlekbackend.user.doctor;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -8,9 +8,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     Optional<Doctor> findByInvitationCode(String invitationCode);
 
     boolean existsByEmail(String email);
-    boolean existsByEmailAndPassword(String email, String password);
+    Optional<Doctor> findByEmailAndPassword(String email, String password);
 
-    Doctor getById(long id);
-
-    Doctor getByEmail(String email);
+    Optional<Doctor> findByEmail(String email);
 }

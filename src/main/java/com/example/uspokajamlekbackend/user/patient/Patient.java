@@ -1,10 +1,8 @@
-package com.example.uspokajamlekbackend.user;
+package com.example.uspokajamlekbackend.user.patient;
 
-import com.example.uspokajamlekbackend.activity.Activity;
 import com.example.uspokajamlekbackend.appointment.Appointment;
-import com.example.uspokajamlekbackend.dailyReport.DailyReport;
-import com.example.uspokajamlekbackend.doctor.Doctor;
-import com.example.uspokajamlekbackend.assignedExercise.AssignedExercise;
+import com.example.uspokajamlekbackend.user.User;
+import com.example.uspokajamlekbackend.user.doctor.Doctor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,10 +16,9 @@ import java.util.List;
 @Entity //encja, czyli bedzie zapis do bazy danych
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Builder
 @Data //tworzy nam gettery i settery
-public class Patient {
+public class Patient implements User {
 
     @Id
     @Column(name="user_id")
@@ -34,25 +31,10 @@ public class Patient {
     private String name;
     private String surname;
     private LocalDate birthDate;
-    @NonNull
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
-    @OneToMany(mappedBy = "assignedTo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @ToString.Exclude
-    @JsonIgnore
-    private List<AssignedExercise> assignedExercises;
-
-    @OneToMany(mappedBy="patientActivity",cascade=CascadeType.ALL)
-    @ToString.Exclude
-    @JsonIgnore
-    private List<Activity> activities;
-
-    @OneToMany(mappedBy="patientDailyReport",cascade=CascadeType.ALL)
-    @ToString.Exclude
-    @JsonIgnore
-    private List<DailyReport> dailyReports;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "patient_doctor",

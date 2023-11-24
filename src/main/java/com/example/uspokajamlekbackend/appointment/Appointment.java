@@ -1,7 +1,7 @@
 package com.example.uspokajamlekbackend.appointment;
 
-import com.example.uspokajamlekbackend.doctor.Doctor;
-import com.example.uspokajamlekbackend.user.Patient;
+import com.example.uspokajamlekbackend.user.doctor.Doctor;
+import com.example.uspokajamlekbackend.user.patient.Patient;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.NonNull;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity

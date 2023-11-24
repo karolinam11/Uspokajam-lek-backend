@@ -1,6 +1,6 @@
-package com.example.uspokajamlekbackend.doctor.dto;
+package com.example.uspokajamlekbackend.user.doctor.dto;
 
-import com.example.uspokajamlekbackend.user.dto.EditAccountRequest;
+import com.example.uspokajamlekbackend.user.patient.dto.EditAccountRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

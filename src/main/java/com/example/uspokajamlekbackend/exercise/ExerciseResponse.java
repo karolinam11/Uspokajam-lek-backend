@@ -1,11 +1,9 @@
 package com.example.uspokajamlekbackend.exercise;
 
-import com.example.uspokajamlekbackend.doctor.Doctor;
+import com.example.uspokajamlekbackend.user.doctor.Doctor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import javax.print.Doc;
 
 @Data
 @AllArgsConstructor

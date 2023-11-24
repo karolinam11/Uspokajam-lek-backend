@@ -1,6 +1,6 @@
-package com.example.uspokajamlekbackend.user.dto;
+package com.example.uspokajamlekbackend.user.patient.dto;
 
-import com.example.uspokajamlekbackend.doctor.dto.DoctorResponse;
+import com.example.uspokajamlekbackend.user.doctor.dto.DoctorResponse;
 import lombok.Data;
 
 import java.time.LocalDate;

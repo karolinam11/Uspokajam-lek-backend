@@ -1,12 +1,10 @@
 package com.example.uspokajamlekbackend.exercise;
 
-import com.example.uspokajamlekbackend.doctor.DoctorService;
-import com.example.uspokajamlekbackend.user.PatientService;
+import com.example.uspokajamlekbackend.user.doctor.DoctorService;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

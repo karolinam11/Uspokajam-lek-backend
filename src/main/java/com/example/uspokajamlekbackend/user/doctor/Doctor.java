@@ -1,10 +1,10 @@
-package com.example.uspokajamlekbackend.doctor;
+package com.example.uspokajamlekbackend.user.doctor;
 
 import com.example.uspokajamlekbackend.appointment.Appointment;
 import com.example.uspokajamlekbackend.assignedExercise.AssignedExercise;
-import com.example.uspokajamlekbackend.exercise.Exercise;
-import com.example.uspokajamlekbackend.user.Role;
-import com.example.uspokajamlekbackend.user.Patient;
+import com.example.uspokajamlekbackend.user.User;
+import com.example.uspokajamlekbackend.user.patient.Role;
+import com.example.uspokajamlekbackend.user.patient.Patient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,7 +21,7 @@ import java.util.List;
 @Data
 @Table(name = "doctors")
 @ToString
-public class Doctor {
+public class Doctor implements User {
     @Id
     @Column(name = "doctor_id")
     @GeneratedValue(strategy = GenerationType.AUTO)

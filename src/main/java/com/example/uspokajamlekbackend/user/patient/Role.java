@@ -1,4 +1,4 @@
-package com.example.uspokajamlekbackend.user;
+package com.example.uspokajamlekbackend.user.patient;
 
 public enum Role {
     PATIENT("patient"),

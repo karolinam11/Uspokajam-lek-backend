@@ -1,6 +1,6 @@
-package com.example.uspokajamlekbackend.doctor.dto;
+package com.example.uspokajamlekbackend.user.doctor.dto;
 
-import com.example.uspokajamlekbackend.user.dto.SignupRequest;
+import com.example.uspokajamlekbackend.user.patient.dto.SignupRequest;
 
 public class DoctorSignupRequest extends SignupRequest {
     private String specialization;

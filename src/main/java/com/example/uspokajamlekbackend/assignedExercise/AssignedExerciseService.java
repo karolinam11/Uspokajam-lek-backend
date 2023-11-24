@@ -1,22 +1,15 @@
 package com.example.uspokajamlekbackend.assignedExercise;
 
-import com.example.uspokajamlekbackend.appointment.Appointment;
-import com.example.uspokajamlekbackend.doctor.DoctorRepository;
-import com.example.uspokajamlekbackend.doctor.DoctorService;
-import com.example.uspokajamlekbackend.doctor.dto.DoctorResponse;
-import com.example.uspokajamlekbackend.exercise.Exercise;
+import com.example.uspokajamlekbackend.user.doctor.DoctorRepository;
+import com.example.uspokajamlekbackend.user.doctor.dto.DoctorResponse;
 import com.example.uspokajamlekbackend.exercise.ExerciseRepository;
 import com.example.uspokajamlekbackend.exercise.ExerciseResponse;
-import com.example.uspokajamlekbackend.user.PatientRepository;
-import com.example.uspokajamlekbackend.user.PatientService;
-import com.example.uspokajamlekbackend.user.dto.PatientResponse;
-import lombok.extern.log4j.Log4j2;
+import com.example.uspokajamlekbackend.user.patient.PatientRepository;
+import com.example.uspokajamlekbackend.user.patient.dto.PatientResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -54,7 +47,7 @@ public class AssignedExerciseService {
                     return AssignedExerciseResponse.builder()
                             .id(exercise.getId())
                             .assignedBy(DoctorResponse.createDoctorResponse(exercise.getAssignedBy()))
-                            .assignedTo(PatientResponse.createPatientResponse(exercise.getAssignedTo()))
+//                            .assignedTo(PatientResponse.createPatientResponse(exercise.getAssignedTo()))
                             .dueDate(exercise.getDueDate())
                             .exercise(ExerciseResponse.createExerciseResponse(exercise.getExercise()))
                             .isDone(exercise.isDone())
@@ -71,7 +64,7 @@ public class AssignedExerciseService {
                     return AssignedExerciseResponse.builder()
                             .id(exercise.getId())
                             .assignedBy(DoctorResponse.createDoctorResponse(exercise.getAssignedBy()))
-                            .assignedTo(PatientResponse.createPatientResponse(exercise.getAssignedTo()))
+//                            .assignedTo(PatientResponse.createPatientResponse(exercise.getAssignedTo()))
                             .dueDate(exercise.getDueDate())
                             .exercise(ExerciseResponse.createExerciseResponse(exercise.getExercise()))
                             .isDone(exercise.isDone())
@@ -90,7 +83,7 @@ public class AssignedExerciseService {
                     return AssignedExerciseResponse.builder()
                             .id(exercise.getId())
                             .assignedBy(DoctorResponse.createDoctorResponse(exercise.getAssignedBy()))
-                            .assignedTo(PatientResponse.createPatientResponse(exercise.getAssignedTo()))
+//                            .assignedTo(PatientResponse.createPatientResponse(exercise.getAssignedTo()))
                             .dueDate(exercise.getDueDate())
                             .exercise(ExerciseResponse.createExerciseResponse(exercise.getExercise()))
                             .isDone(exercise.isDone())
@@ -101,8 +94,8 @@ public class AssignedExerciseService {
     public boolean removeAssignedExercise(Long exerciseId){
         AssignedExercise exercise = assignedExerciseRepository.getById(exerciseId);
         if (exercise != null){
-            exercise.getAssignedTo().getAssignedExercises().remove(exercise);
-            exercise.getAssignedBy().getExercisesAssignedByUser().remove(exercise);
+//            exercise.getAssignedTo().getAssignedExercises().remove(exercise);
+//            exercise.getAssignedBy().getExercisesAssignedByUser().remove(exercise);
             assignedExerciseRepository.delete(exercise);
             return true;
         }
@@ -136,7 +129,7 @@ public class AssignedExerciseService {
                     return AssignedExerciseResponse.builder()
                             .id(exercise.getId())
                             .assignedBy(DoctorResponse.createDoctorResponse(exercise.getAssignedBy()))
-                            .assignedTo(PatientResponse.createPatientResponse(exercise.getAssignedTo()))
+//                            .assignedTo(PatientResponse.createPatientResponse(exercise.getAssignedTo()))
                             .dueDate(exercise.getDueDate())
                             .exercise(ExerciseResponse.createExerciseResponse(exercise.getExercise()))
                             .build();

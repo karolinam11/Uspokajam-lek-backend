@@ -1,6 +1,6 @@
 package com.example.uspokajamlekbackend.dailyReport;
 
-import com.example.uspokajamlekbackend.user.Patient;
+import com.example.uspokajamlekbackend.user.patient.Patient;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

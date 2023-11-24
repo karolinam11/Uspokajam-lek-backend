@@ -1,6 +1,6 @@
 package com.example.uspokajamlekbackend.activity;
 
-import com.example.uspokajamlekbackend.user.PatientService;
+import com.example.uspokajamlekbackend.user.patient.PatientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,16 +1,13 @@
 package com.example.uspokajamlekbackend.appointment;
 
-import com.example.uspokajamlekbackend.doctor.Doctor;
-import com.example.uspokajamlekbackend.doctor.DoctorService;
-import com.example.uspokajamlekbackend.doctor.dto.DoctorResponse;
-import com.example.uspokajamlekbackend.user.PatientService;
-import com.example.uspokajamlekbackend.user.dto.PatientResponse;
-import lombok.extern.java.Log;
+import com.example.uspokajamlekbackend.user.doctor.DoctorService;
+import com.example.uspokajamlekbackend.user.doctor.dto.DoctorResponse;
+import com.example.uspokajamlekbackend.user.patient.PatientService;
+import com.example.uspokajamlekbackend.user.patient.dto.PatientResponse;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,7 +28,7 @@ public class AppointmentService {
         return createAppointmentResponse(this.appointmentRepository.save(Appointment.builder()
                 .visitStartDate(visitStartDate)
                 .visitEndDate(visitEndDate)
-                .patient(patientService.getById(patientId))
+//                .patient(patientService.getById(patientId))
                 .doctor(doctorService.getById(doctorId))
                 .build()));
     }
@@ -69,9 +66,9 @@ public class AppointmentService {
                 .doctor(
                         DoctorResponse.createDoctorResponse(appointment.getDoctor())
                 )
-                .patient(
-                        PatientResponse.createPatientResponse(appointment.getPatient())
-                )
+//                .patient(
+//                        PatientResponse.createPatientResponse(appointment.getPatient())
+//                )
                 .build();
     }
 

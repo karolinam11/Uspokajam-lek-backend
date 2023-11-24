@@ -1,8 +1,8 @@
 package com.example.uspokajamlekbackend.assignedExercise;
 
-import com.example.uspokajamlekbackend.doctor.Doctor;
+import com.example.uspokajamlekbackend.user.doctor.Doctor;
 import com.example.uspokajamlekbackend.exercise.Exercise;
-import com.example.uspokajamlekbackend.user.Patient;
+import com.example.uspokajamlekbackend.user.patient.Patient;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,12 +19,12 @@ public class AssignedExercise {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Exercise exercise;
     private LocalDate dueDate;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Patient assignedTo;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Doctor assignedBy;
 
     @Enumerated(EnumType.STRING)

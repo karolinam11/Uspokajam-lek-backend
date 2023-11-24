@@ -1,4 +1,4 @@
-package com.example.uspokajamlekbackend.doctor.dto;
+package com.example.uspokajamlekbackend.user.doctor.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

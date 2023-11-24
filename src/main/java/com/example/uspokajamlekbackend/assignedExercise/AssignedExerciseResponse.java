@@ -1,11 +1,8 @@
 package com.example.uspokajamlekbackend.assignedExercise;
 
-import com.example.uspokajamlekbackend.doctor.Doctor;
-import com.example.uspokajamlekbackend.doctor.dto.DoctorResponse;
-import com.example.uspokajamlekbackend.exercise.Exercise;
+import com.example.uspokajamlekbackend.user.doctor.dto.DoctorResponse;
 import com.example.uspokajamlekbackend.exercise.ExerciseResponse;
-import com.example.uspokajamlekbackend.user.Patient;
-import com.example.uspokajamlekbackend.user.dto.PatientResponse;
+import com.example.uspokajamlekbackend.user.patient.dto.PatientResponse;
 import lombok.Builder;
 import lombok.Data;
 
