@@ -2,10 +2,7 @@ package com.example.uspokajamlekbackend.dailyReport;
 
 import com.example.uspokajamlekbackend.user.patient.Patient;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -14,6 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @Data //tworzy nam gettery i settery
+@ToString
 public class DailyReport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,16 +21,7 @@ public class DailyReport {
     private String note;
 
     @ManyToOne
+    @ToString.Exclude
     private Patient patientDailyReport;
 
-    @Override
-    public String toString() {
-        return "DailyReport{" +
-                "id=" + id +
-                ", date=" + date +
-                ", mood='" + mood + '\'' +
-                ", note='" + note + '\'' +
-                ", userDailyReport=" + patientDailyReport +
-                '}';
-    }
 }

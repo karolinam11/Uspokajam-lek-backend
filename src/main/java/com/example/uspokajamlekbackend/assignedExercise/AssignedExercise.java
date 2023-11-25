@@ -29,5 +29,5 @@ public class AssignedExercise {
 
     @Enumerated(EnumType.STRING)
     private Status status;
-    private boolean isDone;
+    private boolean isDone = false;
 }

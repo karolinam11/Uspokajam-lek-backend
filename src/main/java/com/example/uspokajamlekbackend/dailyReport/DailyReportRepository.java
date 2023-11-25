@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DailyReportRepository extends JpaRepository<DailyReport, Long> {
 
-    List<DailyReport> getDailyReportsByPatientDailyReportId(Long patientDailyReportId);
+    List<DailyReport> getDailyReportsByPatientDailyReportIdOrderByDate(Long patientDailyReportId);
 
     int countAllByDateAndPatientDailyReportId(LocalDate date, Long patientDailyReportId);
 

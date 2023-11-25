@@ -1,15 +1,19 @@
-package com.example.uspokajamlekbackend.assignedExercise;
+package com.example.uspokajamlekbackend.assignedExercise.dto;
 
+import com.example.uspokajamlekbackend.assignedExercise.Status;
 import com.example.uspokajamlekbackend.user.doctor.dto.DoctorResponse;
 import com.example.uspokajamlekbackend.exercise.ExerciseResponse;
 import com.example.uspokajamlekbackend.user.patient.dto.PatientResponse;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Builder
 @Data
+@NoArgsConstructor
+@Setter
 public class AssignedExerciseResponse {
     private Long id;
     private ExerciseResponse exercise;

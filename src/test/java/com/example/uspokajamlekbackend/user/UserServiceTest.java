@@ -5,6 +5,7 @@ import com.example.uspokajamlekbackend.user.doctor.DoctorRepository;
 import com.example.uspokajamlekbackend.user.patient.Patient;
 import com.example.uspokajamlekbackend.user.patient.PatientRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -27,7 +28,8 @@ public class UserServiceTest {
     @InjectMocks
     private UserService userService;
 
-    public UserServiceTest() {
+    @BeforeEach
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 

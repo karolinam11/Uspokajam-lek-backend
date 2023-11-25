@@ -1,11 +1,15 @@
 package com.example.uspokajamlekbackend.assignedExercise;
 
+import com.example.uspokajamlekbackend.assignedExercise.dto.AssignExerciseRequest;
+import com.example.uspokajamlekbackend.assignedExercise.dto.AssignedExerciseResponse;
 import com.example.uspokajamlekbackend.user.doctor.DoctorRepository;
 import com.example.uspokajamlekbackend.user.doctor.dto.DoctorResponse;
 import com.example.uspokajamlekbackend.exercise.ExerciseRepository;
 import com.example.uspokajamlekbackend.exercise.ExerciseResponse;
 import com.example.uspokajamlekbackend.user.patient.PatientRepository;
 import com.example.uspokajamlekbackend.user.patient.dto.PatientResponse;
+import jakarta.persistence.EntityExistsException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,33 +31,26 @@ public class AssignedExerciseService {
     @Autowired
     private PatientRepository patientRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
 
-    public void assignExercise(Long doctorId, Long patientId, Long exerciseId, LocalDate dueDate){
-        this.assignedExerciseRepository.save(
-                AssignedExercise.builder()
-                        .exercise(exerciseRepository.getById(exerciseId))
-                        .assignedBy(doctorRepository.getById(doctorId))
-                        .assignedTo(patientRepository.getById(patientId))
-                        .status(Status.NEW)
-                        .dueDate(dueDate)
-                        .isDone(false)
-                        .build()
-        );
+
+    public void assignExercise(AssignExerciseRequest assignExerciseRequest) {
+        AssignedExercise assignedExercise = AssignedExercise.builder()
+                .exercise(exerciseRepository.getById(assignExerciseRequest.getExerciseId()))
+                .assignedBy(doctorRepository.getById(assignExerciseRequest.getDoctorId()))
+                .assignedTo(patientRepository.getById(assignExerciseRequest.getPatientId()))
+                .status(Status.NEW)
+                .dueDate(assignExerciseRequest.getDueDate())
+                .isDone(false)
+                .build();
+        this.assignedExerciseRepository.save(assignedExercise);
     }
 
-    public List<AssignedExerciseResponse> getUserAssignedExercises(Long patientId){
+    public List<AssignedExerciseResponse> getUserAssignedExercises(Long patientId) {
         return this.assignedExerciseRepository.getAssignedExerciseByAssignedToId(patientId)
-                .stream().map(exercise -> {
-                    return AssignedExerciseResponse.builder()
-                            .id(exercise.getId())
-                            .assignedBy(DoctorResponse.createDoctorResponse(exercise.getAssignedBy()))
-//                            .assignedTo(PatientResponse.createPatientResponse(exercise.getAssignedTo()))
-                            .dueDate(exercise.getDueDate())
-                            .exercise(ExerciseResponse.createExerciseResponse(exercise.getExercise()))
-                            .isDone(exercise.isDone())
-                            .status(exercise.getStatus())
-                            .build();
-                }).toList();
+                .stream().map(exercise ->
+                        modelMapper.map(exercise, AssignedExerciseResponse.class)).toList();
     }
 
     public List<AssignedExerciseResponse> getNewUserAssignedExercises(Long patientId){
@@ -61,15 +58,7 @@ public class AssignedExerciseService {
 
         newExercises = newExercises.stream().map(exercise -> setExerciseAsSeen(exercise)).toList();
         return newExercises.stream().map(exercise -> {
-                    return AssignedExerciseResponse.builder()
-                            .id(exercise.getId())
-                            .assignedBy(DoctorResponse.createDoctorResponse(exercise.getAssignedBy()))
-//                            .assignedTo(PatientResponse.createPatientResponse(exercise.getAssignedTo()))
-                            .dueDate(exercise.getDueDate())
-                            .exercise(ExerciseResponse.createExerciseResponse(exercise.getExercise()))
-                            .isDone(exercise.isDone())
-                            .status(exercise.getStatus())
-                            .build();
+            return modelMapper.map(exercise, AssignedExerciseResponse.class);
                 }).toList();
     }
 
@@ -79,32 +68,32 @@ public class AssignedExerciseService {
                 .filter(exercise -> {
                     return exercise.getDueDate().equals(LocalDate.now());
                 })
-                .map(exercise -> {
-                    return AssignedExerciseResponse.builder()
-                            .id(exercise.getId())
-                            .assignedBy(DoctorResponse.createDoctorResponse(exercise.getAssignedBy()))
-//                            .assignedTo(PatientResponse.createPatientResponse(exercise.getAssignedTo()))
-                            .dueDate(exercise.getDueDate())
-                            .exercise(ExerciseResponse.createExerciseResponse(exercise.getExercise()))
-                            .isDone(exercise.isDone())
-                            .build();
-                }).toList();
+                .map(exercise -> modelMapper.map(exercise, AssignedExerciseResponse.class)
+                ).toList();
     }
 
-    public boolean removeAssignedExercise(Long exerciseId){
-        AssignedExercise exercise = assignedExerciseRepository.getById(exerciseId);
-        if (exercise != null){
-//            exercise.getAssignedTo().getAssignedExercises().remove(exercise);
-//            exercise.getAssignedBy().getExercisesAssignedByUser().remove(exercise);
+    public List<AssignedExerciseResponse> getUserAssignedExercisesLastWeek(Long patientId){
+        return this.assignedExerciseRepository.getAssignedExerciseByAssignedToIdAndDueDateIsGreaterThan(patientId, LocalDate.now().minusDays(7))
+                .stream()
+                .filter(exercise -> {
+                    return exercise.getDueDate().equals(LocalDate.now());
+                })
+                .map(exercise -> modelMapper.map(exercise, AssignedExerciseResponse.class)
+                ).toList();
+    }
+
+    public boolean removeAssignedExercise(Long exerciseId) {
+        AssignedExercise exercise = assignedExerciseRepository.findById(exerciseId).orElseThrow(EntityExistsException::new);
+        if (exercise != null) {
             assignedExerciseRepository.delete(exercise);
             return true;
         }
         return false;
     }
 
-    public boolean setExerciseStatus(Long exerciseId){
+    public boolean setExerciseStatus(Long exerciseId) {
         AssignedExercise exercise = assignedExerciseRepository.getById(exerciseId);
-        if (exercise != null){
+        if (exercise != null) {
             exercise.setDone(true);
             assignedExerciseRepository.save(exercise);
             return true;
@@ -112,28 +101,9 @@ public class AssignedExerciseService {
         return false;
     }
 
-    public AssignedExercise setExerciseAsSeen(AssignedExercise exercise){
-            exercise.setStatus(Status.SEEN);
-            return assignedExerciseRepository.save(exercise);
-    }
-
-    public List<AssignedExerciseResponse> getExercisesDoneLastWeek(long patientId){
-        return this.assignedExerciseRepository.getAssignedExerciseByAssignedToId(patientId)
-                .stream()
-                .filter(exercise -> {
-                    return exercise.getDueDate().isBefore(LocalDate.now())
-                            && exercise.getDueDate().isAfter(LocalDate.now().minusDays(7))
-                            && exercise.isDone();
-                })
-                .map(exercise -> {
-                    return AssignedExerciseResponse.builder()
-                            .id(exercise.getId())
-                            .assignedBy(DoctorResponse.createDoctorResponse(exercise.getAssignedBy()))
-//                            .assignedTo(PatientResponse.createPatientResponse(exercise.getAssignedTo()))
-                            .dueDate(exercise.getDueDate())
-                            .exercise(ExerciseResponse.createExerciseResponse(exercise.getExercise()))
-                            .build();
-                }).toList();
+    public AssignedExercise setExerciseAsSeen(AssignedExercise exercise) {
+        exercise.setStatus(Status.SEEN);
+        return assignedExerciseRepository.save(exercise);
     }
 
 

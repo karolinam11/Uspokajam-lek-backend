@@ -24,7 +24,7 @@ import java.util.List;
 public class Doctor implements User {
     @Id
     @Column(name = "doctor_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NonNull
     private String email;

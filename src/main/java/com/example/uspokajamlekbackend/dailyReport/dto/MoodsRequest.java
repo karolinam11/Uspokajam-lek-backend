@@ -1,4 +1,4 @@
-package com.example.uspokajamlekbackend.dailyReport;
+package com.example.uspokajamlekbackend.dailyReport.dto;
 
 import lombok.Data;
 

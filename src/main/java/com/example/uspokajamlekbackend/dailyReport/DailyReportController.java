@@ -1,6 +1,7 @@
 package com.example.uspokajamlekbackend.dailyReport;
 
-import lombok.extern.log4j.Log4j2;
+import com.example.uspokajamlekbackend.dailyReport.dto.DailyReportRequest;
+import com.example.uspokajamlekbackend.dailyReport.dto.MoodsRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class DailyReportController {
     private DailyReportService dailyReportService;
 
     @GetMapping("/daily-reports")
-    public ResponseEntity<List<DailyReportReponse>> getUserDailyReports(@RequestParam Long id) {
+    public ResponseEntity<List<DailyReport>> getUserDailyReports(@RequestParam Long id) {
         return ResponseEntity.ok(dailyReportService.getUserDailyReports(id));
     }
 

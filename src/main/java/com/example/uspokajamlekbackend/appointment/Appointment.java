@@ -3,10 +3,7 @@ package com.example.uspokajamlekbackend.appointment;
 import com.example.uspokajamlekbackend.user.doctor.Doctor;
 import com.example.uspokajamlekbackend.user.patient.Patient;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
@@ -19,7 +16,7 @@ import java.time.LocalDateTime;
 public class Appointment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO  )
     private Long id;
     @NonNull
     private LocalDateTime visitStartDate;
@@ -28,16 +25,11 @@ public class Appointment {
     private LocalDateTime visitEndDate;
     @NonNull
     @ManyToOne
+    @ToString.Exclude
     private Patient patient;
     @NonNull
     @ManyToOne
+    @ToString.Exclude
     private Doctor doctor;
 
-    @Override
-    public String toString() {
-        return "Appointment{" +
-                "id=" + id +
-                ", visitDate=" + visitStartDate +
-                '}';
-    }
 }

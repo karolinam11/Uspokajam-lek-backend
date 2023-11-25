@@ -1,5 +1,6 @@
 package com.example.uspokajamlekbackend.assignedExercise;
 
+import com.example.uspokajamlekbackend.assignedExercise.dto.AssignExerciseRequest;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,16 +19,11 @@ public class AssignedExerciseController {
     private AssignedExerciseService assignedExerciseService;
 
     @PostMapping("assign-exercise")
-    public ResponseEntity<?> assignExercise(@RequestBody AssignExerciseRequest assignExerciseRequest){
-        if (assignExerciseRequest.getDueDate().isBefore(LocalDate.now())){
+    public ResponseEntity<?> assignExercise(@RequestBody AssignExerciseRequest assignExerciseRequest) {
+        if (assignExerciseRequest.getDueDate().isBefore(LocalDate.now())) {
             return ResponseEntity.badRequest().build();
         }
-        assignedExerciseService.assignExercise(
-                assignExerciseRequest.getDoctorId(),
-                assignExerciseRequest.getPatientId(),
-                assignExerciseRequest.getExerciseId(),
-                assignExerciseRequest.getDueDate()
-        );
+        assignedExerciseService.assignExercise(assignExerciseRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -43,7 +39,7 @@ public class AssignedExerciseController {
 
     @GetMapping("exercises-done-last-week")
     public ResponseEntity<?> getExercisesDoneLastWeek(@RequestParam long id){
-        return ResponseEntity.ok(assignedExerciseService.getExercisesDoneLastWeek(id));
+        return ResponseEntity.ok(assignedExerciseService.getUserAssignedExercisesLastWeek(id));
     }
 
     @GetMapping("patient-assigned-exercises-today")
@@ -52,15 +48,15 @@ public class AssignedExerciseController {
     }
 
     @DeleteMapping("remove-assigned-exercise")
-    public ResponseEntity<?> removeAssignedExercise(@RequestParam long id){
-        if (assignedExerciseService.removeAssignedExercise(id)){
+    public ResponseEntity<?> removeAssignedExercise(@RequestParam long id) {
+        if (assignedExerciseService.removeAssignedExercise(id)) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
     }
 
     @PutMapping("set-exercise-status")
-    public ResponseEntity<?> setExerciseStatus(@RequestParam long id){
+    public ResponseEntity<?> setExerciseStatus(@RequestParam long id) {
         if (assignedExerciseService.setExerciseStatus(id)) {
             return ResponseEntity.ok().build();
         }

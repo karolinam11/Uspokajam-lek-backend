@@ -29,13 +29,13 @@ public class AppointmentService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public AppointmentResponse addAppointment(Long patientId, Long doctorId, LocalDateTime visitStartDate, LocalDateTime visitEndDate) {
-        return createAppointmentResponse(this.appointmentRepository.save(Appointment.builder()
-                .visitStartDate(visitStartDate)
-                .visitEndDate(visitEndDate)
-                .patient(patientService.getById(patientId))
-                .doctor(doctorService.getById(doctorId))
-                .build()));
+    public AppointmentResponse addAppointment(AddAppointmentRequest addAppointmentRequest) {
+        Appointment appointment = modelMapper.map(addAppointmentRequest, Appointment.class);
+        appointment.setDoctor(doctorService.getById(addAppointmentRequest.getDoctorId()));
+        appointment.setPatient(patientService.getById(addAppointmentRequest.getPatientId()));
+        appointment = this.appointmentRepository.save(appointment);
+        return createAppointmentResponse(this.appointmentRepository.save(appointment));
+
     }
 
     public List<AppointmentResponse> getFutureDoctorAppointment(Long doctorId) {
@@ -63,25 +63,17 @@ public class AppointmentService {
     }
 
 
-    private AppointmentResponse createAppointmentResponse(Appointment appointment) {
-        return AppointmentResponse.builder()
-                .id(appointment.getId())
-                .visitStartDate(appointment.getVisitStartDate())
-                .visitEndDate(appointment.getVisitEndDate())
-                .doctor(
-                        DoctorResponse.createDoctorResponse(appointment.getDoctor())
-                )
-                .patient(
-                        modelMapper.map(appointment.getPatient(), PatientResponse.class)
-                )
-                .build();
+    public AppointmentResponse createAppointmentResponse(Appointment appointment) {
+        AppointmentResponse appointmentResponse = modelMapper.map(appointment, AppointmentResponse.class);
+        appointmentResponse.setDoctor(modelMapper.map(appointment.getDoctor(), DoctorResponse.class));
+        appointmentResponse.setPatient(modelMapper.map(appointment.getPatient(), PatientResponse.class));
+        return appointmentResponse;
     }
 
     public boolean removeAppointment(Long appointmentId){
         Appointment appointment = appointmentRepository.getById(appointmentId);
         if (appointment != null){
             appointment.getDoctor().getAppointments().remove(appointment);
-//            appointment.getPatient().getAppointments().remove(appointment);
             appointmentRepository.deleteById(appointment.getId());
             return true;
         }

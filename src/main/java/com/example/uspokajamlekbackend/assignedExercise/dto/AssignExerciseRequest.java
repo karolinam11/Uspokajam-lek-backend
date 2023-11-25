@@ -1,4 +1,4 @@
-package com.example.uspokajamlekbackend.assignedExercise;
+package com.example.uspokajamlekbackend.assignedExercise.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

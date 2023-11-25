@@ -1,5 +1,6 @@
 package com.example.uspokajamlekbackend.appointment;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -8,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 
 @Controller
+@Log4j2
 @CrossOrigin(origins = "http://localhost:4200")
-
 public class AppointmentController {
 
     @Autowired
@@ -31,7 +32,7 @@ public class AppointmentController {
             addAppointmentRequest.getVisitStartDate().isBefore(LocalDateTime.now()) || addAppointmentRequest.getVisitEndDate().isBefore(LocalDateTime.now())) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(appointmentService.addAppointment(addAppointmentRequest.getPatientId(),addAppointmentRequest.getDoctorId(),addAppointmentRequest.getVisitStartDate(), addAppointmentRequest.getVisitEndDate()));
+        return ResponseEntity.ok(appointmentService.addAppointment(addAppointmentRequest));
     }
 
     @GetMapping("patient-past-appointments")
