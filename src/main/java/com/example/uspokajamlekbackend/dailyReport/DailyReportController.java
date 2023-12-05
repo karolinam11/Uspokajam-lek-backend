@@ -42,8 +42,8 @@ public class DailyReportController {
     }
 
     @GetMapping("daily-reports/moods-quantity")
-    public ResponseEntity<?> getMoodsQuantity(@RequestParam Long id) {
-        return ResponseEntity.ok(this.dailyReportService.getMoodsQuantity(id));
+    public ResponseEntity<?> getMoodsQuantity(@RequestParam Long id, int days) {
+        return ResponseEntity.ok(this.dailyReportService.getMoodsQuantityInLastXDays(id,days));
     }
 
     @DeleteMapping("daily-reports/delete")

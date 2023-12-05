@@ -43,8 +43,9 @@ public class DailyReportService {
         return moods.stream().filter((mood -> mood.getDate().isAfter(dateDaysBefore))).toList();
     }
 
-    public List<Integer> getMoodsQuantity(long userId) {
-        List<DailyReport> reports = dailyReportRepository.getAllByPatientDailyReportId(userId);
+    public List<Integer> getMoodsQuantityInLastXDays(long userId, int lastXDays) {
+        LocalDate date = LocalDate.now().minusDays(lastXDays);
+        List<DailyReport> reports = dailyReportRepository.getAllByPatientDailyReportIdAndDate(userId,date);
         int terrible = (int) reports.stream().filter(report -> report.getMood().equals("terrible")).count();
         int bad = (int) reports.stream().filter(report -> report.getMood().equals("bad")).count();
         int neutral = (int) reports.stream().filter(report -> report.getMood().equals("neutral")).count();

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("doctor/")
+@RequestMapping("/doctor")
 public class DoctorController {
 
     @Autowired
@@ -24,7 +24,7 @@ public class DoctorController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Doctor> getDoctorById(@PathVariable("id") Long id) {
         try {
             return ResponseEntity.ok(this.doctorService.getDoctorById(id));
@@ -33,7 +33,7 @@ public class DoctorController {
         }
     }
 
-    @PostMapping("signup-doctor")
+    @PostMapping("/signup-doctor")
     public ResponseEntity<?> signup(@RequestBody DoctorSignupRequest signupRequest) {
         Doctor doctor = modelMapper.map(signupRequest, Doctor.class);
         try {
@@ -44,7 +44,7 @@ public class DoctorController {
         }
     }
 
-    @PutMapping("edit-doctor-account")
+    @PutMapping("/edit-doctor-account")
     public ResponseEntity<?> editDoctorAccount(@RequestBody EditDoctorAccountRequest editAccountRequest) {
         try {
             Doctor doctor = modelMapper.map(editAccountRequest, Doctor.class);
@@ -55,7 +55,7 @@ public class DoctorController {
         }
     }
 
-    @PostMapping("add-patient")
+    @PostMapping("/add-patient")
     public ResponseEntity<?> addPatient(@RequestBody AddPatientRequest addPatientRequest) {
         if(this.doctorService.assignPatientToDoctor(addPatientRequest)){
             return ResponseEntity.ok().build();
@@ -64,23 +64,23 @@ public class DoctorController {
 
     }
 
-    @GetMapping("patients")
+    @GetMapping("/patients")
     public ResponseEntity<?> getPatients(@RequestParam Long id) {
         return ResponseEntity.ok(this.doctorService.getPatients(id));
     }
 
-    @GetMapping("pending-requests")
+    @GetMapping("/pending-requests")
     public ResponseEntity<?> getPendingRequests(@RequestParam long id) {
         return ResponseEntity.ok(doctorService.getPendingRequests(id));
     }
 
-    @PostMapping("accept-pending-request")
+    @PostMapping("/accept-pending-request")
     public ResponseEntity<?> acceptPendingRequest(@RequestBody AddPatientRequest addPatientRequest) {
         doctorService.acceptDoctorRequest(addPatientRequest.getPatientId(), addPatientRequest.getDoctorId());
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("decline-pending-request")
+    @PostMapping("/decline-pending-request")
     public ResponseEntity<?> declinePendingRequest(@RequestBody AddPatientRequest addPatientRequest) {
        try{
            doctorService.declineDoctorRequest(addPatientRequest.getPatientId(), addPatientRequest.getDoctorId());

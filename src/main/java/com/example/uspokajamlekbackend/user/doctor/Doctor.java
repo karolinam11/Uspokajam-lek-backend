@@ -68,6 +68,4 @@ public class Doctor implements User {
     @JsonIgnore
     private List<AssignedExercise> exercisesAssignedByUser;
 
-    @Transient
-    private String token;
 }
