@@ -67,4 +67,7 @@ public class Doctor implements User {
     @ToString.Exclude
     @JsonIgnore
     private List<AssignedExercise> exercisesAssignedByUser;
+
+    @Transient
+    private String token;
 }

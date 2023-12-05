@@ -44,5 +44,4 @@ public class Patient implements User {
     @ToString.Exclude
     @JsonIgnore
     private List<Doctor> doctors = new ArrayList<>();
-
 }

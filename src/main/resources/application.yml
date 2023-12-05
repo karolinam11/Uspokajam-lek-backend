@@ -6,3 +6,7 @@ spring:
 #  jpa:
 #    hibernate:
 #      ddl-auto: create
+
+jwt:
+  secret: DOSJNDSDSAOJNK$O#QUJNK131234142142
+  expiration: 1000000

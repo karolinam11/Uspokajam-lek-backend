@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("doctor/")
 public class DoctorController {
 
     @Autowired
@@ -23,7 +24,7 @@ public class DoctorController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @GetMapping("/doctor/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Doctor> getDoctorById(@PathVariable("id") Long id) {
         try {
             return ResponseEntity.ok(this.doctorService.getDoctorById(id));
@@ -32,7 +33,7 @@ public class DoctorController {
         }
     }
 
-    @PostMapping("/signup-doctor")
+    @PostMapping("signup-doctor")
     public ResponseEntity<?> signup(@RequestBody DoctorSignupRequest signupRequest) {
         Doctor doctor = modelMapper.map(signupRequest, Doctor.class);
         try {
