@@ -36,6 +36,7 @@ public class PatientService {
         return patientRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
+    public Patient getByEmail(String email){return patientRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);}
     public Patient editAccount(Patient patient) {
         Patient patientDb = patientRepository.findByEmail(patient.getEmail()).orElseThrow(EntityNotFoundException::new);
         patientDb.setName(patient.getName());

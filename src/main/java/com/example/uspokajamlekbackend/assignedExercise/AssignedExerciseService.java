@@ -66,7 +66,7 @@ public class AssignedExerciseService {
         return this.assignedExerciseRepository.getAssignedExerciseByAssignedToId(patientId)
                 .stream()
                 .filter(exercise -> {
-                    return exercise.getDueDate().equals(LocalDate.now());
+                    return exercise.getDueDate().equals(LocalDate.now()) && !exercise.isDone();
                 })
                 .map(exercise -> modelMapper.map(exercise, AssignedExerciseResponse.class)
                 ).toList();

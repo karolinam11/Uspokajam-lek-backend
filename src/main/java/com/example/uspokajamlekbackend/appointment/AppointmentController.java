@@ -17,12 +17,12 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
     @GetMapping("doctor-appointments")
-    public ResponseEntity<?> getDoctorAppointments(@RequestParam long id){
+    public ResponseEntity<?> getDoctorAppointments(@RequestParam Long id){
         return ResponseEntity.ok(appointmentService.getFutureDoctorAppointment(id));
     }
 
     @GetMapping("patient-appointments")
-    public ResponseEntity<?> getPatientAppointments(@RequestParam long id){
+    public ResponseEntity<?> getPatientAppointments(@RequestParam Long id){
         return ResponseEntity.ok(appointmentService.getFuturePatientAppointment(id));
     }
 

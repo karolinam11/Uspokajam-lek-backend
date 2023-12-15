@@ -19,6 +19,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class DailyReportServiceTest {
 
     @Mock
@@ -33,15 +34,10 @@ public class DailyReportServiceTest {
     @InjectMocks
     private DailyReportService dailyReportService;
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
     @Test
     void shouldGetUserDailyReports() {
         Long userId = 1L;
-        when(dailyReportRepository.getDailyReportsByPatientDailyReportIdOrderByDate(userId)).thenReturn(Arrays.asList(new DailyReport(), new DailyReport()));
+        when(dailyReportRepository.getAllByPatientDailyReportId(userId)).thenReturn(Arrays.asList(new DailyReport(), new DailyReport()));
 
         List<DailyReport> userDailyReports = dailyReportService.getUserDailyReports(userId);
 
@@ -51,13 +47,12 @@ public class DailyReportServiceTest {
     @Test
     void shouldAddDailyReport() {
         DailyReportRequest dailyReportRequest = new DailyReportRequest();
-        dailyReportRequest.setUserId(1L);
 
         DailyReport dailyReport = new DailyReport();
         when(modelMapper.map(dailyReportRequest, DailyReport.class)).thenReturn(dailyReport);
-        when(patientService.getById(dailyReportRequest.getUserId())).thenReturn(new Patient());
+        when(patientService.getByEmail(any(String.class))).thenReturn(new Patient());
 
-        dailyReportService.addDailyReport(dailyReportRequest);
+        dailyReportService.addDailyReport(dailyReportRequest, "email@example.com");
 
         verify(dailyReportRepository, times(1)).save(dailyReport);
     }
@@ -65,11 +60,11 @@ public class DailyReportServiceTest {
     @Test
     void shouldCheckIfDailyReportCanBeAdded() {
         LocalDate localDate = LocalDate.now();
-        Long userId = 1L;
+        String username = "username";
 
-        when(dailyReportRepository.countAllByDateAndPatientDailyReportId(localDate, userId)).thenReturn(0);
+        when(dailyReportRepository.countAllByDateAndPatientDailyReportEmail(localDate, username)).thenReturn(0);
 
-        boolean canBeAdded = dailyReportService.checkIfDailyReportCanBeAdded(localDate, userId);
+        boolean canBeAdded = dailyReportService.checkIfDailyReportCanBeAdded(localDate, username);
 
         assertTrue(canBeAdded);
     }
@@ -105,9 +100,9 @@ public class DailyReportServiceTest {
 
                 );
 
-        when(dailyReportRepository.getAllByPatientDailyReportId(userId)).thenReturn(reports);
+        when(dailyReportRepository.getAllByPatientAndDate(any(Long.class), any(LocalDate.class))).thenReturn(reports);
 
-        List<Integer> moodsQuantity = dailyReportService.getMoodsQuantity(userId);
+        List<Integer> moodsQuantity = dailyReportService.getMoodsQuantityInLastXDays(userId, 7);
 
         assertEquals(1, moodsQuantity.get(0));
         assertEquals(1, moodsQuantity.get(1));

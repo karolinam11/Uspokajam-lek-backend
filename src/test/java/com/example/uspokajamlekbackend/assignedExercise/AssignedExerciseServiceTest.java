@@ -25,6 +25,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class AssignedExerciseServiceTest {
 
     @Mock
@@ -44,10 +45,6 @@ public class AssignedExerciseServiceTest {
 
     @InjectMocks
     private AssignedExerciseService assignedExerciseService;
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void shouldAssignExercise() {

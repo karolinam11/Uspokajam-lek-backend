@@ -1,12 +1,14 @@
 package com.example.uspokajamlekbackend.assignedExercise.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
 
 @AllArgsConstructor
 @Getter
+@Builder
 public class AssignExerciseRequest {
     private Long doctorId;
     private Long patientId;

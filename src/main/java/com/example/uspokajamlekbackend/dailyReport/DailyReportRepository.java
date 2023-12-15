@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface DailyReportRepository extends JpaRepository<DailyReport, Long> {
 
-    List<DailyReport> getDailyReportsByPatientDailyReportIdOrderByDate(Long patientDailyReportId);
+    int countAllByDateAndPatientDailyReportEmail(LocalDate date, String email);
 
-    int countAllByDateAndPatientDailyReportId(LocalDate date, Long patientDailyReportId);
+    List<DailyReport> getAllByPatientDailyReportIdOrderByDate(Long id);
+    List<DailyReport> getAllByPatientDailyReportId(Long userId);
 
-    List<DailyReport> getAllByPatientDailyReportId(Long patientDailyReportId);
 
-    @Query("FROM DailyReport d WHERE d.date > :date AND d.patientDailyReport.id = :patientDailyReportId")
-    List<DailyReport> getAllByPatientDailyReportIdAndDate(Long patientDailyReportId, LocalDate date);
+    @Query("FROM DailyReport d WHERE d.date > :date AND d.patientDailyReport.id= :userId")
+    List<DailyReport> getAllByPatientAndDate(Long userId, LocalDate date);
 
 }
