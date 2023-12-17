@@ -2,6 +2,8 @@ package com.example.uspokajamlekbackend.user.patient;
 
 import com.example.uspokajamlekbackend.user.doctor.Doctor;
 import com.example.uspokajamlekbackend.user.doctor.DoctorRepository;
+import com.example.uspokajamlekbackend.user.patient.dto.AddDoctorRequest;
+import com.example.uspokajamlekbackend.user.patient.dto.EditAccountRequest;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -37,7 +39,8 @@ public class PatientService {
     }
 
     public Patient getByEmail(String email){return patientRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);}
-    public Patient editAccount(Patient patient) {
+    public Patient editAccount(EditAccountRequest editAccountRequest) {
+        Patient patient = modelMapper.map(editAccountRequest, Patient.class);
         Patient patientDb = patientRepository.findByEmail(patient.getEmail()).orElseThrow(EntityNotFoundException::new);
         patientDb.setName(patient.getName());
         patientDb.setSurname(patient.getSurname());
@@ -52,11 +55,11 @@ public class PatientService {
         return patient.getDoctors();
     }
 
-    public boolean createDoctorRequest(long patientId, String invitationCode) {
-        Doctor doctor = doctorRepository.findByInvitationCode(invitationCode)
-                .orElseThrow(() -> new EntityNotFoundException("Doctor not found with invitationCode: " + invitationCode));
-        Patient patient = patientRepository.findById(patientId)
-                .orElseThrow(() -> new EntityNotFoundException("Patient not found with ID: " + patientId));
+    public boolean createDoctorRequest(AddDoctorRequest addDoctorRequest) {
+        Doctor doctor = doctorRepository.findByInvitationCode(addDoctorRequest.getInvitationCode())
+                .orElseThrow(() -> new EntityNotFoundException("Doctor not found with invitationCode: " + addDoctorRequest.getInvitationCode()));
+        Patient patient = patientRepository.findById(addDoctorRequest.getPatientId())
+                .orElseThrow(() -> new EntityNotFoundException("Patient not found with ID: " + addDoctorRequest.getPatientId()));
         if (!doctor.getPatients().contains(patient)) {
             doctor.getPendingRequests().add(patient);
             doctorRepository.save(doctor);

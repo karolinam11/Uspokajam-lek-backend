@@ -30,6 +30,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -50,10 +51,19 @@ public class ActivityControllerTest {
     void shouldAddActivity() throws Exception {
         ActivityRequest activityRequest = new ActivityRequest();
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/activities/add")
+        mockMvc.perform(post("/activities/add")
                         .content(objectMapper.writeValueAsString(activityRequest))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
         verify(activityService, times(1)).addActivity(activityRequest);
+    }
+
+    @Test
+    void shouldGetUserActivities() throws Exception {
+        ActivityResponse activityResponse = new ActivityResponse();
+        when(activityService.getUserActivities(1L)).thenReturn(List.of(activityResponse));
+        mockMvc.perform(get("/activities?id=1"))
+                .andExpect(status().isOk());
+        verify(activityService, times(1)).getUserActivities(1L);
     }
 }

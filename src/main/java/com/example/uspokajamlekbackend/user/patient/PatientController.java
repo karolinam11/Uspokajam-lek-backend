@@ -32,7 +32,7 @@ public class PatientController {
     @PutMapping("edit-account")
     public ResponseEntity<?> editAccount(@RequestBody EditAccountRequest editAccountRequest) {
         try{
-            Patient editedPatient = patientService.editAccount(modelMapper.map(editAccountRequest, Patient.class));
+            Patient editedPatient = patientService.editAccount(editAccountRequest);
             return ResponseEntity.ok(modelMapper.map(editedPatient, PatientResponse.class));
         } catch(EntityNotFoundException e){
             return ResponseEntity.notFound().build();
@@ -41,7 +41,7 @@ public class PatientController {
 
     @PostMapping("add-doctor-request")
     public ResponseEntity<?> addDoctor(@RequestBody AddDoctorRequest addDoctorRequest) {
-        if (patientService.createDoctorRequest(addDoctorRequest.getPatientId(), addDoctorRequest.getInvitationCode())) {
+        if (patientService.createDoctorRequest(addDoctorRequest)) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();

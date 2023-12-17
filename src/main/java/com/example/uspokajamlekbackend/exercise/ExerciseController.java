@@ -8,35 +8,33 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Log4j2
 @CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/exercises")
 public class ExerciseController {
 
     @Autowired
     private ExerciseService exerciseService;
 
-    @PostMapping("/exercises/add")
+    @PostMapping("/add")
     public ResponseEntity<?> addExercise(@RequestBody ExerciseRequest exerciseRequest) {
         exerciseService.addExercise(exerciseRequest);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/exercises")
+    @PutMapping
     public ResponseEntity<?> update(@RequestBody ExerciseRequest exerciseRequest) {
         exerciseService.updateExercise(exerciseRequest);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/exercises/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<?> deleteExercise(@RequestParam String name) {
         exerciseService.deleteExercise(name);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/exercises")
-    public ResponseEntity<?> getExercise() {
+    @GetMapping
+    public ResponseEntity<?> getExercises() {
         return ResponseEntity.ok(exerciseService.getAllExercises());
     }
-
-
-
 
 }

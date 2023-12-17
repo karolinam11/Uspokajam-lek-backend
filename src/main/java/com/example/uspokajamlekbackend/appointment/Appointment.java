@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Data //tworzy nam gettery i settery
 public class Appointment {
 

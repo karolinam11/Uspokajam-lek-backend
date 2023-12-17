@@ -169,4 +169,12 @@ public class AssignedExerciseControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void shouldGetAssignedExercisesToday() throws Exception {
+        AssignedExerciseResponse assignedExerciseResponse = new AssignedExerciseResponse();
+        when(assignedExerciseService.getUserAssignedExercisesToday(1L)).thenReturn(List.of(assignedExerciseResponse));
+        mockMvc.perform(get("/patient-assigned-exercises-today?id=1"))
+                .andExpect(status().isOk());
+    }
+
 }

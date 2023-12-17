@@ -7,7 +7,6 @@ import lombok.*;
 @Entity //encja, czyli bedzie zapis do bazy danych
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Builder
 @Data //tworzy nam gettery i settery
 public class Exercise {
 

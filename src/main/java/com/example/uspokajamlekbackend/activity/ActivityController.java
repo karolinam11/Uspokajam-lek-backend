@@ -16,7 +16,7 @@ public class ActivityController {
     @Autowired
     private ActivityService activityService;
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<ActivityResponse>> getUserActivities(@RequestParam Long id){
         return ResponseEntity.ok(activityService.getUserActivities(id));
     }

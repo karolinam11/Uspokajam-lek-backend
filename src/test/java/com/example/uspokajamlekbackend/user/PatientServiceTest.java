@@ -6,6 +6,8 @@ import com.example.uspokajamlekbackend.user.patient.Patient;
 import com.example.uspokajamlekbackend.user.patient.PatientRepository;
 import com.example.uspokajamlekbackend.user.patient.PatientService;
 import com.example.uspokajamlekbackend.user.patient.Role;
+import com.example.uspokajamlekbackend.user.patient.dto.AddDoctorRequest;
+import com.example.uspokajamlekbackend.user.patient.dto.EditAccountRequest;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -91,10 +93,16 @@ public class PatientServiceTest {
         updatedPatientDetails.setName("UpdatedName");
         updatedPatientDetails.setSurname("UpdatedSurname");
 
-        when(patientRepository.findByEmail(updatedPatientDetails.getEmail())).thenReturn(Optional.of(existingPatient));
-        when(patientRepository.save(any(Patient.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        EditAccountRequest editAccountRequest = new EditAccountRequest();
+        editAccountRequest.setEmail("updatedemail@example.com");
+        editAccountRequest.setName("UpdatedName");
+        editAccountRequest.setSurname("UpdatedSurname");
 
-        Patient editedPatient = patientService.editAccount(updatedPatientDetails);
+        when(patientRepository.findByEmail(editAccountRequest.getEmail())).thenReturn(Optional.of(existingPatient));
+        when(modelMapper.map(any(EditAccountRequest.class), eq(Patient.class))).thenReturn(updatedPatientDetails);
+        when(patientRepository.save(any(Patient.class))).thenReturn(updatedPatientDetails);
+
+        Patient editedPatient = patientService.editAccount(editAccountRequest);
 
         assertEquals(updatedPatientDetails.getEmail(), editedPatient.getEmail());
         assertEquals(updatedPatientDetails.getName(), editedPatient.getName());
@@ -135,19 +143,19 @@ public class PatientServiceTest {
         Patient patient = new Patient();
         patient.setId(patientId);
 
+        AddDoctorRequest addDoctorRequest = new AddDoctorRequest(patientId, invitationCode);
+
         when(doctorRepository.findByInvitationCode(invitationCode)).thenReturn(Optional.of(doctor));
         when(patientRepository.findById(patientId)).thenReturn(Optional.of(patient));
 
         assertTrue(patient.getDoctors().isEmpty());
         assertTrue(doctor.getPatients().isEmpty());
 
-        boolean requestCreated = patientService.createDoctorRequest(patientId, invitationCode);
+        boolean requestCreated = patientService.createDoctorRequest(addDoctorRequest);
 
         assertTrue(requestCreated);
         assertTrue(doctor.getPendingRequests().contains(patient));
         verify(doctorRepository, times(1)).save(doctor);
     }
-
-    // Test other methods similarly (editAccount, getMyDoctors, createDoctorRequest)
 }
 
