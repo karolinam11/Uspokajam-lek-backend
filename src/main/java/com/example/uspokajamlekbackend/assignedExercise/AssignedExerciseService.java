@@ -76,7 +76,7 @@ public class AssignedExerciseService {
         return this.assignedExerciseRepository.getAssignedExerciseByAssignedToIdAndDueDateIsGreaterThan(patientId, LocalDate.now().minusDays(7))
                 .stream()
                 .filter(exercise -> {
-                    return exercise.getDueDate().equals(LocalDate.now());
+                    return exercise.isDone();
                 })
                 .map(exercise -> modelMapper.map(exercise, AssignedExerciseResponse.class)
                 ).toList();

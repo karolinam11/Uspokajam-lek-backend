@@ -3,6 +3,7 @@ package com.example.uspokajamlekbackend.exercise;
 import com.example.uspokajamlekbackend.user.doctor.Doctor;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 @Entity //encja, czyli bedzie zapis do bazy danych
 @AllArgsConstructor
@@ -15,6 +16,7 @@ public class Exercise {
     private Long id;
 
     private String name;
+    @Column(columnDefinition = "VARCHAR(1000)")
     private String description;
 
     private String duration;

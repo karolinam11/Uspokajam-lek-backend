@@ -3,9 +3,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/uspokajamlek
     username: postgres
     password:
-#  jpa:
-#    hibernate:
-#      ddl-auto: create
+  jpa:
+    hibernate:
+      ddl-auto: create
 
 jwt:
   secret: DOSJNDSDSAOJNK$O#QUJNK131234142142

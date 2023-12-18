@@ -60,7 +60,7 @@ public class PatientService {
                 .orElseThrow(() -> new EntityNotFoundException("Doctor not found with invitationCode: " + addDoctorRequest.getInvitationCode()));
         Patient patient = patientRepository.findById(addDoctorRequest.getPatientId())
                 .orElseThrow(() -> new EntityNotFoundException("Patient not found with ID: " + addDoctorRequest.getPatientId()));
-        if (!doctor.getPatients().contains(patient)) {
+        if (!doctor.getPatients().contains(patient) && !doctor.getPendingRequests().contains(patient)) {
             doctor.getPendingRequests().add(patient);
             doctorRepository.save(doctor);
             return true;
