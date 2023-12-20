@@ -15,6 +15,7 @@ public class ExerciseResponse {
     private String name;
     private String description;
     private String category;
+    private int time;
     private String duration;
     private Doctor createdBy;
 }

@@ -20,6 +20,7 @@ public class Exercise {
     private String description;
 
     private String duration;
+    private int time;
     private String category;
 
     @ManyToOne
