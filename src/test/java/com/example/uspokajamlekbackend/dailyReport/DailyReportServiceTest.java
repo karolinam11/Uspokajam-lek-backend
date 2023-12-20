@@ -75,9 +75,9 @@ public class DailyReportServiceTest {
         Long userId = 1L;
 
         List<DailyReport> reports = Arrays.asList(
-                new DailyReport(1L, LocalDate.now(), "terrible", "note",new Patient()),
-                new DailyReport(2L, LocalDate.now().minusDays(3), "bad", "note",new Patient()),
-                new DailyReport(3L, LocalDate.now().minusDays(5), "neutral", "note",new Patient())
+                new DailyReport(1L, LocalDate.now(), "terrible", "note", new Patient()),
+                new DailyReport(2L, LocalDate.now().minusDays(3), "bad", "note", new Patient()),
+                new DailyReport(3L, LocalDate.now().minusDays(5), "neutral", "note", new Patient())
         );
 
         when(dailyReportRepository.getAllByPatientDailyReportId(userId)).thenReturn(reports);
@@ -92,13 +92,13 @@ public class DailyReportServiceTest {
         Long userId = 1L;
 
         List<DailyReport> reports = Arrays.asList(
-                new DailyReport(1L, LocalDate.now(), "terrible", "note",new Patient()),
-                new DailyReport(2L, LocalDate.now(), "bad", "note",new Patient()),
-                new DailyReport(3L, LocalDate.now(), "neutral", "note",new Patient()),
-                new DailyReport(4L, LocalDate.now(), "good", "note",new Patient()),
-                new DailyReport(5L, LocalDate.now(), "excellent", "note",new Patient())
+                new DailyReport(1L, LocalDate.now(), "terrible", "note", new Patient()),
+                new DailyReport(2L, LocalDate.now(), "bad", "note", new Patient()),
+                new DailyReport(3L, LocalDate.now(), "neutral", "note", new Patient()),
+                new DailyReport(4L, LocalDate.now(), "good", "note", new Patient()),
+                new DailyReport(5L, LocalDate.now(), "excellent", "note", new Patient())
 
-                );
+        );
 
         when(dailyReportRepository.getAllByPatientAndDate(any(Long.class), any(LocalDate.class))).thenReturn(reports);
 

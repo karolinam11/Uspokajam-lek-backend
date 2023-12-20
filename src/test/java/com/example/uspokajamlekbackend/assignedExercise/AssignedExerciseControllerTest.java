@@ -66,7 +66,8 @@ public class AssignedExerciseControllerTest {
                 .isDone(true)
                 .dueDate(LocalDate.of(2024,10,10))
                 .build();
-        when(assignedExerciseService.getUserAssignedExercises(1L)).thenReturn(List.of(assignedExerciseResponse));
+        when(assignedExerciseService.getUserAssignedExercises(1L))
+                .thenReturn(List.of(assignedExerciseResponse));
         mockMvc.perform(get("/patient-assigned-exercises?id=1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].assignedBy").exists())
